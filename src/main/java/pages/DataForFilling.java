@@ -11,8 +11,15 @@ public class DataForFilling {
     static public String passwordClient = "1q@W3e$R";
     static public String passwordSpecialist = "waikogh2oVek0f;";
     static public String messageForSendInConsultation = "Hello";
-    static public String pathForUploadFile = "/users/anastasia/Screenshot_1651757779.png";
-    static public String dateForAppoitment = ".//span[@aria-label='вторник, 24 октября 2023 г.']"; //менять для каждого теста день и число
 
-
+    static public String messageForSendConsultationWithImage = "NotHello";
+    static public String emailAdmin = "monokai-kirov-jest@yandex.ru";
+    static public String passwordAdmin = "waikogh2oVek0f;";
+    static public String dataForCreateUserByAdmin = "Test test test";
+    static public String emailForCreateUserByAdmin = "test@test.ru";
+    static public String numberForCreateUserByAdmin = "9999999999";
+    static public String cardForTesting = "5555555555554444";
+    static public String monthForTesting = "0726911";
+    static public String yearForTesting = "26";
+    static public String cvvForTesting = "911";
 }

@@ -12,6 +12,7 @@ import pages.RegistrationPage;
 
 import java.util.concurrent.TimeUnit;
 
+
 public class ConsultationTest {
     private WebDriver driver;
 
@@ -43,16 +44,6 @@ public class ConsultationTest {
         Thread.sleep(5000);
         driver.quit();
     }
-//    @Test//надо придумать как заранее оформить консультацию (кейс 6)
-//    public void consultationFromSpecialis() throws InterruptedException{
-//        RegistrationPage registrationPage = new RegistrationPage(driver);
-//        MainPage mainPage = new MainPage(driver);
-//        registrationPage.stepsOnAutorizationSpecialist();
-//        Thread.sleep(2000);
-//        mainPage.selectConsultationBySpecialist();
-//        mainPage.waitBegin();
-//        mainPage.beginConsultation();
-//    }
     @Test//case 7.1
     public void sayHelloByClient() throws InterruptedException {
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -73,5 +64,51 @@ public class ConsultationTest {
         Assert.assertEquals(expectedText, actualText);
         driver.quit();
     }
+    @Test
+    public void checkUploadFileSpecialist() throws InterruptedException {//6.2
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        registrationPage.stepsOnAutorizationSpecialist();
+        Thread.sleep(3000);
+        mainPage.selectConsultation();
+        Thread.sleep(3000);
+        mainPage.pushPaperClipButton();
+        mainPage.uploadFile();
+        Thread.sleep(3000);
+        mainPage.addTextInModalMessageWithImage(DataForFilling.messageForSendConsultationWithImage);
+        mainPage.submitUpload();
+        mainPage.logout();
+        registrationPage.stepsOnAutorizationClient();
+        mainPage.selectConsultation();
+        boolean a = mainPage.checkDisplayedImage();
+        if (mainPage.getFirstMessageInChat().equals(DataForFilling.messageForSendConsultationWithImage) && a ){
+            System.out.println("Добавлено изображение");
+        }
+        else System.out.println("Изображение не добавлено");
+    }
+
+    @Test
+    public void checkUploadFileClient()throws InterruptedException {//7.2
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        registrationPage.stepsOnAutorizationClient();
+        Thread.sleep(3000);
+        mainPage.selectConsultation();
+        Thread.sleep(3000);
+        mainPage.pushPaperClipButton();
+        mainPage.uploadFile();
+        Thread.sleep(3000);
+        mainPage.addTextInModalMessageWithImage(DataForFilling.messageForSendConsultationWithImage);
+        mainPage.submitUpload();
+        mainPage.logout();
+        registrationPage.stepsOnAutorizationSpecialist();
+        mainPage.selectConsultation();
+        boolean a = mainPage.checkDisplayedImage();
+        if (mainPage.getFirstMessageInChat().equals(DataForFilling.messageForSendConsultationWithImage) && a ){
+            System.out.println("Добавлено изображение");
+        }
+        else System.out.println("Изображение не добавлено");
+    }
+
 
 }

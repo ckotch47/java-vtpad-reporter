@@ -1,3 +1,4 @@
+import com.sun.tools.javac.Main;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,7 +24,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void checkAutorization() { //case 2
+    public void checkAutorization() throws InterruptedException { //case 2
         RegistrationPage registrationPage = new RegistrationPage(driver);
         MainPage mainPage = new MainPage(driver);
         registrationPage.stepsOnAutorizationClient();
@@ -144,6 +145,21 @@ public class RegistrationTest {
         String actualError = registrationPage.getErrorPasswordMobile();
         String expectedError = "Неверный код";
         Assert.assertEquals(expectedError, actualError);
+    }
+    @Test
+    public void registrationUserByAdministrator() throws InterruptedException{//case 3 , заполняется только ФИО mail и номер телефона
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        MainPage mainPage = new MainPage(driver);
+        Thread.sleep(1000);
+        registrationPage.stepsOnAutorizationAdmin();
+        Thread.sleep(1000);
+        mainPage.pushButtonUsersAdmin();
+        Thread.sleep(3000);
+        mainPage.pushCreateUserAdmin();
+        Thread.sleep(3000);
+        mainPage.stepsForCreateUserByAdmin();
+        Thread.sleep(1000);
+        mainPage.checkConfirmModalForCreateUserByAdmin();
     }
     @After
     public void quit(){

@@ -25,34 +25,8 @@ public class AppointmentTest {
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.get(DataForFilling.deployUrl);
     }
-//    @Test
-//    public void selectSpecialists() throws InterruptedException {//запись на консультацию
-//        RegistrationPage registrationPage = new RegistrationPage(driver);
-//        MainPage mainPage = new MainPage(driver);
-//        registrationPage.stepsOnAutorizationSpecialist();
-//        mainPage.selectCalendar();
-//        mainPage.clickNewSlot();
-//        mainPage.selectMonthForCreateSlot();
-//        mainPage.createSlot();
-//        Thread.sleep(6000);
-//        mainPage.logout();
-//        Thread.sleep(6000);
-//        registrationPage.stepsOnAutorizationClient();
-//        Thread.sleep(3000);
-//        mainPage.searchRole();
-//        mainPage.pushSearch();
-//        Thread.sleep(3000);
-//        mainPage.selectSpecialist();
-//        Thread.sleep(3000);
-//        mainPage.selectMonthForCreateSlot();
-//        Thread.sleep(3000);
-//        mainPage.makeAppoitment();
-//        Thread.sleep(2000);
-//        String a = mainPage.getPaymentText();
-//        System.out.println(a);
-//    }
     @Test
-    public void searchSpecialist(){             //тест кейс номер 5
+    public void searchSpecialist() throws InterruptedException{             //тест кейс номер 5
         RegistrationPage registrationPage = new RegistrationPage(driver);
         MainPage mainPage = new MainPage(driver);
         registrationPage.stepsOnAutorizationClient();
