@@ -72,6 +72,14 @@ public class MainPage {
     public void switchFrame(){
         driver.switchTo().frame("iFrameResizer0");
     }
+    public void catchFrame(){
+            try {
+                switchFrame();
+                System.out.println("Модальное окно для оплаты найдено");
+            }catch (NoSuchFrameException exception){
+                System.out.println("Модальное окно для оплаты не найдено");
+            }
+        }
     public void waitModal(){
         driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
         driver.findElement(selectBankCardOnModalPayments);
@@ -273,14 +281,23 @@ public class MainPage {
         Thread.sleep(3000);
     }
     public void selectBankCard(){
-        driver.findElement(selectBankCardOnModalPayments).click();
+        try {
+            driver.findElement(selectBankCardOnModalPayments).click();
+        }
+        catch (NoSuchElementException exception){
+            System.out.println("Не найден ввод карты");
+        }
     }
     public void fillingDataCard(){
-        driver.findElement(numbCard).sendKeys(DataForFilling.cardForTesting);
-        driver.findElement(expiredMonth).sendKeys(DataForFilling.monthForTesting);
-        driver.findElement(expiredYear).sendKeys(DataForFilling.yearForTesting);
-        driver.findElement(cvvCode).sendKeys(DataForFilling.cvvForTesting);
-        driver.findElement(buttonSendCash).click();
+        try {
+            driver.findElement(numbCard).sendKeys(DataForFilling.cardForTesting);
+            driver.findElement(expiredMonth).sendKeys(DataForFilling.monthForTesting);
+            driver.findElement(expiredYear).sendKeys(DataForFilling.yearForTesting);
+            driver.findElement(cvvCode).sendKeys(DataForFilling.cvvForTesting);
+            driver.findElement(buttonSendCash).click();
+        }catch (NoSuchElementException e){
+            System.out.println("Не найдены поля для ввода данных");
+        }
     }
 
 

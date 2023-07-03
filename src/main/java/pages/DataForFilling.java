@@ -1,7 +1,7 @@
 package pages;
 
 public class DataForFilling {
-    static public String deployUrl = "https://dev.k8s.ponimayu.qtim.ru/auth";
+    static public String deployUrl = "https://ponimayu.qtim.ru/auth";
     static public String emailClient = "monokai-kirov-jest-10@yandex.ru";
     static public String emailSpecialist = "monokai-kirov-jest-20@yandex.ru";
     static public String emailNotUsedInData = "makavelka71@gmail.com";

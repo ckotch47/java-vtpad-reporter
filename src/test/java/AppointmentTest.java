@@ -1,14 +1,7 @@
-import com.sun.tools.javac.Main;
-import org.hamcrest.MatcherAssert;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.DataForFilling;
 import pages.MainPage;
@@ -18,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AppointmentTest {
     private WebDriver driver;
-    @Before
+    @BeforeAll
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -35,7 +28,7 @@ public class AppointmentTest {
         mainPage.pushSearch();
         String actualText = mainPage.getNameSpecialist();
         String expectedText = "Специалист";
-        Assert.assertEquals(expectedText, actualText);
+        Assertions.assertEquals(expectedText, actualText);
     }
     @Test
     public void getEmptyList() throws InterruptedException {        //кейс 5.1
@@ -50,7 +43,7 @@ public class AppointmentTest {
         Thread.sleep(8000);
         String actualQuantity = mainPage.checkQuantitySpecialist();
         String expectedQuantity = "0 специалистов";
-        Assert.assertEquals(expectedQuantity, actualQuantity);
+        Assertions.assertEquals(expectedQuantity, actualQuantity);
     }
     @Test
     public void searchSpecialistName() throws InterruptedException {       //кейс 5.2
@@ -65,7 +58,7 @@ public class AppointmentTest {
         Thread.sleep(8000);
         String actualResult = mainPage.checkQuantitySpecialist();
         String expectedResult = "1 специалист";
-        Assert.assertEquals(expectedResult, actualResult);
+        Assertions.assertEquals(expectedResult, actualResult);
     }
     @Test//case 5.3
     public void failedSearchSpecialist() throws InterruptedException{
@@ -79,7 +72,7 @@ public class AppointmentTest {
         Thread.sleep(8000);
         String actualResult = mainPage.checkQuantitySpecialist();
         String expectedResult = "0 специалистов";
-        Assert.assertEquals(expectedResult, actualResult);
+        Assertions.assertEquals(expectedResult, actualResult);
     }
     @Test //case 5.4
     public void clearSearchText() throws InterruptedException{
@@ -93,16 +86,16 @@ public class AppointmentTest {
         Thread.sleep(4000);
         String actualResult = mainPage.checkQuantitySpecialist();
         String expectedResult = "0 специалистов";
-        Assert.assertEquals(expectedResult, actualResult);
+        Assertions.assertEquals(expectedResult, actualResult);
         Thread.sleep(3000);
         mainPage.clickButtonClearFilter();
         Thread.sleep(3000);
         String actualResultAfterClearFilter = mainPage.checkQuantitySpecialist();
         String expectedResultAfterClearFilter = "0 специалистов";
-        MatcherAssert.assertThat(actualResultAfterClearFilter, is(not(expectedResultAfterClearFilter)));
+        Assertions.assertNotEquals(actualResultAfterClearFilter, expectedResultAfterClearFilter);
     }
-    @After
+    @AfterAll
     public void quit(){
-        driver.quit();
+        driver.close();
     }
 }

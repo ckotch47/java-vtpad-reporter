@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class RegistrationPage {
@@ -26,7 +27,7 @@ public class RegistrationPage {
         this.driver = driver;
     }
     public void waitButtonRegistration(){
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver,  Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(buttonRegistration));
     }
     public void fillingEmailClient(){

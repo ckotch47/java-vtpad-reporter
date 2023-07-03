@@ -1,7 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class TwoWindowTest {
+public class TwoWindowTests {
     private WebDriver driver;
     private WebDriver driver1;
     @Test
@@ -45,7 +43,7 @@ public class TwoWindowTest {
         mainPage.waitIncomingCall();
         Boolean actual = mainPage.checkDisplayed();
         Boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
     @Test
     public void twoWindwowVideo() throws InterruptedException {// 7.3
@@ -83,7 +81,7 @@ public class TwoWindowTest {
         mainPage.waitIncomingCall();
         Boolean actual = mainPage.checkDisplayed();
         Boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
     @Test
     public void twoWindowAudioWithoutMicrophone() throws InterruptedException {//7.8
@@ -224,9 +222,9 @@ public class TwoWindowTest {
 
 
 
-    @After
+    @AfterAll
     public void quit(){
-        driver.quit();
-        driver1.quit();
+        driver.close();
+        driver1.close();
     }
 }

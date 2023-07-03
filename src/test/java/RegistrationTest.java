@@ -1,9 +1,6 @@
 import com.sun.tools.javac.Main;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.DataForFilling;
@@ -15,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class RegistrationTest {
     private WebDriver driver;
 
-    @Before
+    @BeforeAll
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver  = new ChromeDriver();
@@ -31,7 +28,7 @@ public class RegistrationTest {
         mainPage.waitElement();
         String actualText = mainPage.getWelcomeText();
         String expectedText = "Домашняя страница";
-        Assert.assertEquals(expectedText, actualText);
+        Assertions.assertEquals(expectedText, actualText);
     }
 
     @Test
@@ -42,7 +39,7 @@ public class RegistrationTest {
         registrationPage.pushNextButton();
         String actualError = registrationPage.getErrorMail();
         String expectedText = "Введите валидный E-mail";
-        Assert.assertEquals(expectedText, actualError);
+        Assertions.assertEquals(expectedText, actualError);
     }
 
     @Test
@@ -53,7 +50,7 @@ public class RegistrationTest {
         registrationPage.pushNextButton();
         String actualError = registrationPage.getErrorMail();
         String expectedText = "Введите валидный E-mail";
-        Assert.assertEquals(expectedText, actualError);
+        Assertions.assertEquals(expectedText, actualError);
     }
     @Test
     public void authorizationWithMailWhosNoInDatabase(){ //case 2.3
@@ -64,7 +61,7 @@ public class RegistrationTest {
         registrationPage.waitError();
         String actualError = registrationPage.getErrorForDatabase();
         String expectedText = "Неверный email или пароль";
-        Assert.assertEquals(expectedText, actualError);
+        Assertions.assertEquals(expectedText, actualError);
     }
     @Test
     public void authorizationWithFalsePassword(){ //case 2.4
@@ -75,7 +72,7 @@ public class RegistrationTest {
         registrationPage.waitError();
         String actualError = registrationPage.getErrorForDatabase();
         String expectedText = "Неверный email или пароль";
-        Assert.assertEquals(expectedText, actualError);
+        Assertions.assertEquals(expectedText, actualError);
     }
     @Test
     public void authorizationWithoutFillingFields(){ //case 2.5
@@ -84,7 +81,7 @@ public class RegistrationTest {
         registrationPage.waitError();
         String actualError = registrationPage.getErrorForDatabase();
         String expectedText = "Поле необходимо заполнить";
-        Assert.assertEquals(expectedText, actualError);
+        Assertions.assertEquals(expectedText, actualError);
     }
     @Test
     public void registrationWithUsedEmail() throws InterruptedException { //кейс 1.1
@@ -103,7 +100,7 @@ public class RegistrationTest {
         registrationPage.waitError();
         String actualError = registrationPage.getError();
         String expectedError = "Данный E-mail уже используется";
-        Assert.assertEquals(expectedError, actualError);
+        Assertions.assertEquals(expectedError, actualError);
     }
     @Test
     public void registrationWithUsedPhone() throws InterruptedException{  //кейс 1.2
@@ -122,7 +119,7 @@ public class RegistrationTest {
         registrationPage.waitErrorMobile();
         String actualError = registrationPage.getErrorMobile();
         String expectedError = "Данный номер телефона уже используется";
-        Assert.assertEquals(expectedError, actualError);
+        Assertions.assertEquals(expectedError, actualError);
     }
     @Test
     public void fillingFalsePassword() throws InterruptedException {  //кейс 1.4
@@ -144,7 +141,7 @@ public class RegistrationTest {
         registrationPage.waitErrorPasswordMobile();
         String actualError = registrationPage.getErrorPasswordMobile();
         String expectedError = "Неверный код";
-        Assert.assertEquals(expectedError, actualError);
+        Assertions.assertEquals(expectedError, actualError);
     }
     @Test
     public void registrationUserByAdministrator() throws InterruptedException{//case 3 , заполняется только ФИО mail и номер телефона
@@ -161,8 +158,8 @@ public class RegistrationTest {
         Thread.sleep(1000);
         mainPage.checkConfirmModalForCreateUserByAdmin();
     }
-    @After
+    @AfterAll
     public void quit(){
-        driver.quit();
+        driver.close();
     }
 }

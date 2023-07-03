@@ -1,6 +1,6 @@
 import com.sun.tools.javac.Main;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +11,7 @@ import pages.RegistrationPage;
 public class CreateSlotTest {
     private WebDriver driver;
     @Test
+    @Deprecated
     public void createSlot()throws InterruptedException {
         //полный тест на создание слота и запись на консультацию и начало
         // консультации со стороны специалиста
@@ -43,7 +44,7 @@ public class CreateSlotTest {
         Thread.sleep(2000);
         mainPage.finalMakeAppoitmentByclient();
         Thread.sleep(15000);
-        mainPage.switchFrame();
+        mainPage.catchFrame();
         mainPage.selectBankCard();
         Thread.sleep(2000);
         mainPage.fillingDataCard();

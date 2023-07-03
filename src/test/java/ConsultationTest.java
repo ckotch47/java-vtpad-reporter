@@ -1,7 +1,4 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ConsultationTest {
     private WebDriver driver;
 
-    @Before
+    @BeforeAll
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -40,7 +37,7 @@ public class ConsultationTest {
         Thread.sleep(3000);
         String actualText = mainPage.getFirstMessageInChat();
         String expectedText = DataForFilling.messageForSendInConsultation;
-        Assert.assertEquals(expectedText, actualText);
+        Assertions.assertEquals(expectedText, actualText);
         Thread.sleep(5000);
         driver.quit();
     }
@@ -61,7 +58,7 @@ public class ConsultationTest {
         Thread.sleep(2000);
         String actualText = mainPage.getFirstMessageInChat();
         String expectedText = DataForFilling.messageForSendInConsultation;
-        Assert.assertEquals(expectedText, actualText);
+        Assertions.assertEquals(expectedText, actualText);
         driver.quit();
     }
     @Test
