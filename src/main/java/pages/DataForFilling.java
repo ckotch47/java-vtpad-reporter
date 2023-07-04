@@ -1,7 +1,7 @@
 package pages;
 
 public class DataForFilling {
-    static public String deployUrl = "https://ponimayu.qtim.ru/auth";
+    static public String deployUrl = "https://app.ponimayu.qtim.ru/";
     static public String emailClient = "monokai-kirov-jest-10@yandex.ru";
     static public String emailSpecialist = "monokai-kirov-jest-20@yandex.ru";
     static public String emailNotUsedInData = "makavelka71@gmail.com";
@@ -22,4 +22,5 @@ public class DataForFilling {
     static public String monthForTesting = "0726911";
     static public String yearForTesting = "26";
     static public String cvvForTesting = "911";
+    static public String photoForSendInChat = "/users/anastasia/desktop/Screenshot_1650967111.png";
 }

@@ -140,7 +140,7 @@ public class RegistrationPage {
         fillingEmailSpecialist();
         fillingPasswordSpecialist();
         pushNextButton();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
     }
     public void stepsOnAutorizationAdmin(){
         fillingEmailAdmin();

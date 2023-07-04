@@ -20,11 +20,10 @@ public class MainPage {
     private By fieldTextConsultation = By.xpath(".//textarea[@placeholder='Введите текст...']");
     private By sendButton = By.xpath(".//div[@class='consultation-send__button'][1]");
     private By logoutButton = By.xpath(".//div[@class='aside-logout__text']");
-    private By firstMessageInChat = By.xpath(".//div[@class='__view']/div[@class='consultation-chat__group'][last()]/div[@class='consultation-chat__messages'][last()]/div[@class='consultation-chat__message consultation-chat-message consultation-chat-message_type_companion consultation-chat-message'][last()]/div[@class='consultation-chat-message__body'][last()]/div[@class='consultation-chat-message__area']");
-    private By lastMessageForImage = By.xpath(".//div[@class='__view']/div[@class='consultation-chat__group'][last()]/div[@class='consultation-chat__messages'][last()]/div[@class='consultation-chat__message consultation-chat-message consultation-chat-message_type_companion consultation-chat-message'][last()]/div[@class='consultation-chat-message__body'][last()]/div[@class='consultation-chat-message__image']");
+    private By firstMessageInChat = By.xpath(".//div[@class='__view']/div[last()]/div[last()]/div[last()]/div[@class='consultation-chat-message__body']/div[@class='consultation-chat-message__area']");
+    private By lastMessageForImage = By.xpath(".//div[@class='__view']/div[last()]/div[last()]/div[last()]/div[@class='consultation-chat-message__body']/div[@class='consultation-chat-message__image']");
     private By clearFilter = By.xpath(".//button[@type='reset']");
     private By selectCalendar = By.xpath(".//div[@class='aside-menu__label'][contains(text(), 'Календарь')]");
-    private By selectConsultationFromSpecialist = By.xpath(".//span[contains(text(), 'Открыта')]");
     private By audioConsultation = By.xpath(".//div[@class='consultation-format__actions']//div[1]");
     private By videoConsultation = By.xpath(".//div[@class='consultation-format__actions']//div[2]");
     private By incomingCall = By.xpath(".//div[@name='incomingCall']");
@@ -59,10 +58,15 @@ public class MainPage {
     private By buttonStartConsultation = By.xpath(".//button[contains(text(), 'Начать консультацию')]");
     private By buttonCalendarOnMainPage = By.cssSelector("span.date-picker-range__label");
     private By nextMonthOnMainPage = By.xpath(".//div[@class='vc-container vc-indigo']/div[@class='vc-pane-container']/div[@class='vc-arrows-container title-left']/div[@class='vc-arrow is-right'][last()]");
-    private By buttonForSelectFirstPeriod = By.xpath(".//span[@aria-label='вторник, 11 июля 2023 г.']");
-    private By buttonForSelectSecondPeriod  = By.xpath("//span[@aria-label='воскресенье, 30 июля 2023 г.']");
+    private By buttonForSelectFirstPeriod = By.xpath(".//span[@aria-label='пятница, 11 августа 2023 г.']");
+    private By buttonForSelectSecondPeriod  = By.xpath("//span[@aria-label='среда, 30 августа 2023 г.']");
     private By selectConsultationOnMainPage = By.xpath("//div[@class='striped-table__td striped-table__item-column']/span[contains(text(), 'Открыта')]");
     private By buttonCalendarOnMainPageByClient = By.xpath(".//div[@class='consultations-filter-list-head']/span['date-picker-range consultations-filter-list__date date-picker-range_theme_white']/span[@class='date-picker-range__label']");
+    private By buttonEndConsulation = By.xpath(".//button[contains(text(), 'Завершить консультацию')]");
+    private By fieldSelectTematics = By.xpath(".//input[@placeholder='Укажите тематику']");
+    private By selectFamilyInList = By.xpath(".//ul[@class='vs__dropdown-menu']/li/span");
+    private By approveEndConsultation = By.xpath(".//button[contains(text(), 'Готово')]");
+    private By writeConclusion = By.xpath(".//button[contains(text(), 'Написать заключение')]");
 
 
 
@@ -110,8 +114,9 @@ public class MainPage {
         return
                 driver.findElement(nameSpecialist).getText();
     }
-    public void clientSelectSpecialist(){
+    public void clientSelectSpecialist()throws InterruptedException{
         driver.findElement(nameSpecialist).click();
+        Thread.sleep(4000);
     }
 
     public void pushCheckBoxFamily() {//нажатие на чекбокс "семейный" в фильтре в поиске
@@ -142,9 +147,6 @@ public class MainPage {
         driver.findElement(dataSpecialist).sendKeys("Такого специалиста не найти которого нет");
     }
 
-    public void selectConsultationBySpecialist() {//выбор консультации за специалиста
-        driver.findElement(selectConsultationFromSpecialist).click();
-    }
 
     public void fiilingHelloInChat(String hello) {//отправка сообщения в чат
         driver.findElement(fieldTextConsultation).sendKeys(hello);
@@ -156,7 +158,7 @@ public class MainPage {
 
     public void logout() throws InterruptedException {//выход с профиля
         driver.findElement(logoutButton).click();
-        Thread.sleep(3000);
+        Thread.sleep(7000);
     }
 
     public String getFirstMessageInChat() {//получение первого текста в чате
@@ -187,16 +189,15 @@ public class MainPage {
         Thread.sleep(5000);
     }
 
-    public void selectConsultation() {
-        driver.findElement(selectConsultationFromSpecialist).click();
-    }
 
-    public void selectAudioConsultation() {
+    public void selectAudioConsultation() throws InterruptedException{
         driver.findElement(audioConsultation).click();
+        Thread.sleep(3000);
     }
 
-    public void selectVideoConsultation() {
+    public void selectVideoConsultation() throws InterruptedException{
         driver.findElement(videoConsultation).click();
+        Thread.sleep(3000);
     }
 
     public void waitIncomingCall() {
@@ -227,8 +228,9 @@ public class MainPage {
         driver.findElement(paperClipButton).click();
     }
 
-    public void uploadFile() {
-        driver.findElement(uploadFile).sendKeys("/users/anastasia/desktop/Screenshot_1650967111.png");
+    public void uploadFile() throws InterruptedException{
+        driver.findElement(uploadFile).sendKeys(DataForFilling.photoForSendInChat);
+        Thread.sleep(3000);
     }
 
     public void submitUpload() {
@@ -239,8 +241,9 @@ public class MainPage {
         driver.findElement(addTextInModalMessageWithImage).sendKeys(hello);
     }
 
-    public void acceptCall() {
+    public void acceptCall() throws InterruptedException{
         driver.findElement(acceptCall).click();
+        Thread.sleep(2000);
     }
 
     public void pushButtonUsersAdmin() {
@@ -280,15 +283,16 @@ public class MainPage {
         driver.findElement(saveTimeForCreateConsultation).click();
         Thread.sleep(3000);
     }
-    public void selectBankCard(){
+    public void selectBankCard()throws InterruptedException{
         try {
             driver.findElement(selectBankCardOnModalPayments).click();
         }
         catch (NoSuchElementException exception){
             System.out.println("Не найден ввод карты");
         }
+        Thread.sleep(3000);
     }
-    public void fillingDataCard(){
+    public void fillingDataCard()throws InterruptedException{
         try {
             driver.findElement(numbCard).sendKeys(DataForFilling.cardForTesting);
             driver.findElement(expiredMonth).sendKeys(DataForFilling.monthForTesting);
@@ -298,6 +302,7 @@ public class MainPage {
         }catch (NoSuchElementException e){
             System.out.println("Не найдены поля для ввода данных");
         }
+        Thread.sleep(4000);
     }
 
 
@@ -319,13 +324,14 @@ public class MainPage {
         }
     }
 
-    public void checkDisableCallSpecialist() {
+    public void checkDisableCallSpecialist()throws InterruptedException {
         try {
             driver.findElement(modalCall).isDisplayed();
             System.out.println("Модальное окно работает у специалиста, оно должно быть закрыто");
         } catch (NoSuchElementException exception) {
             System.out.println("Модальное окно не найдено у специалиста, все хорошо");
         }
+        Thread.sleep(6000);
     }
     public void checkConfirmModal()throws InterruptedException{
         try{
@@ -380,11 +386,13 @@ public class MainPage {
         driver.findElement(By.xpath(".//div[@class='calendar-consultations-item__number'][contains(text()," + tempDays + ")]")).click();
         Thread.sleep(4000);
     }
-    public void makeAppoitmentByClient(){
+    public void makeAppoitmentByClient() throws InterruptedException{
         driver.findElement(selectSlotByClient).click();
+        Thread.sleep(2000);
     }
-    public void finalMakeAppoitmentByclient(){
+    public void finalMakeAppoitmentByclient() throws InterruptedException{
         driver.findElement(buttonFinalMakeAppoitment).click();
+        Thread.sleep(15000);
     }
     public void pushButtonChat()throws InterruptedException{
         driver.findElement(buttonChat).click();
@@ -402,20 +410,47 @@ public class MainPage {
             System.out.println("все хорошо, консультация началась");
         }
     }
-    public void selectPeriodOnMainPageBySpecialist(){
+    public void selectPeriodOnMainPageBySpecialist()throws InterruptedException{
         driver.findElement(buttonCalendarOnMainPage).click();
         driver.findElement(nextMonthOnMainPage).click();
         driver.findElement(buttonForSelectFirstPeriod).click();
         driver.findElement(buttonForSelectSecondPeriod).click();
+        Thread.sleep(4000);
     }
-    public void selectPeriodOnMainPageByClient(){
+    public void selectPeriodOnMainPageByClient() throws InterruptedException{
         driver.findElement(buttonCalendarOnMainPageByClient).click();
         driver.findElement(nextMonthOnMainPage).click();
         driver.findElement(buttonForSelectFirstPeriod).click();
         driver.findElement(buttonForSelectSecondPeriod).click();
+        Thread.sleep(4000);
     }
-    public void selectConsultationOnMainPage(){
+    public void selectConsultationOnMainPage()throws InterruptedException{
         driver.findElement(selectConsultationOnMainPage).click();
+        Thread.sleep(4000);
     }
+    public void endConsultation(){
+        driver.findElement(buttonEndConsulation).click();
+    }
+    public void selectTematicsForEndConsultation() throws InterruptedException{
+        driver.findElement(fieldSelectTematics).sendKeys("С");
+        Thread.sleep(2000);
+        driver.findElement(selectFamilyInList).click();
+        Thread.sleep(2000);
+    }
+    public void approveEndConsultation()throws InterruptedException{
+        driver.findElement(approveEndConsultation).click();
+        Thread.sleep(3000);
+    }
+    public void checkEndConsultation(){
+        try {
+            driver.findElement(writeConclusion).isDisplayed();
+            System.out.println("Консультация завершена");
+        }
+        catch (NoSuchElementException exception){
+            System.out.println("Консультация не завершена");
+        }
+    }
+
+
 }
 

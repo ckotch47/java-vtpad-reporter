@@ -45,6 +45,7 @@ public class AppointmentTest {
         String expectedQuantity = "0 специалистов";
         Assertions.assertEquals(expectedQuantity, actualQuantity);
     }
+    @DisplayName("Проверка количества специалистов при вводе одного специалиста ")
     @Test
     public void searchSpecialistName() throws InterruptedException {       //кейс 5.2
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -60,6 +61,7 @@ public class AppointmentTest {
         String expectedResult = "1 специалист";
         Assertions.assertEquals(expectedResult, actualResult);
     }
+    @DisplayName("проверка количества специлистов при вводе неимеющихся специалистов")
     @Test//case 5.3
     public void failedSearchSpecialist() throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -74,6 +76,7 @@ public class AppointmentTest {
         String expectedResult = "0 специалистов";
         Assertions.assertEquals(expectedResult, actualResult);
     }
+    @DisplayName("Проверка количестваа специалистов после очистки фильтра на странице специалистов")
     @Test //case 5.4
     public void clearSearchText() throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);

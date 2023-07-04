@@ -20,6 +20,7 @@ public class RegistrationTest {
         driver.get(DataForFilling.deployUrl);
     }
 
+    @DisplayName("Проверка авторизации пользователя")
     @Test
     public void checkAutorization() throws InterruptedException { //case 2
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -31,6 +32,7 @@ public class RegistrationTest {
         Assertions.assertEquals(expectedText, actualText);
     }
 
+    @DisplayName("Проверка авторизации пользователя с невалидным мэйлом")
     @Test
     public void authorizationWithNonValideMail() { //case 2.1
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -42,6 +44,7 @@ public class RegistrationTest {
         Assertions.assertEquals(expectedText, actualError);
     }
 
+    @DisplayName("Проверка авторизации пользователя с мэйлом в котором содержится кириллица")
     @Test
     public void authorizationWithRussianMail() { //case 2.2
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -52,6 +55,7 @@ public class RegistrationTest {
         String expectedText = "Введите валидный E-mail";
         Assertions.assertEquals(expectedText, actualError);
     }
+    @DisplayName("Проверка авторизации пользователя с мэйлом которого нет в базе")
     @Test
     public void authorizationWithMailWhosNoInDatabase(){ //case 2.3
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -63,6 +67,7 @@ public class RegistrationTest {
         String expectedText = "Неверный email или пароль";
         Assertions.assertEquals(expectedText, actualError);
     }
+    @DisplayName("Проверка авторизации пользователя с неправильным паролем")
     @Test
     public void authorizationWithFalsePassword(){ //case 2.4
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -74,6 +79,7 @@ public class RegistrationTest {
         String expectedText = "Неверный email или пароль";
         Assertions.assertEquals(expectedText, actualError);
     }
+    @DisplayName("Проверка авторизации пользователя без заполнения полей")
     @Test
     public void authorizationWithoutFillingFields(){ //case 2.5
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -83,6 +89,7 @@ public class RegistrationTest {
         String expectedText = "Поле необходимо заполнить";
         Assertions.assertEquals(expectedText, actualError);
     }
+    @DisplayName("Проверка регистрации пользователя с мэйлом который уже имеется наа платформе")
     @Test
     public void registrationWithUsedEmail() throws InterruptedException { //кейс 1.1
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -102,6 +109,8 @@ public class RegistrationTest {
         String expectedError = "Данный E-mail уже используется";
         Assertions.assertEquals(expectedError, actualError);
     }
+
+    @DisplayName("Проверка регистрации пользователя с телефоном который имеется в базе")
     @Test
     public void registrationWithUsedPhone() throws InterruptedException{  //кейс 1.2
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -121,6 +130,7 @@ public class RegistrationTest {
         String expectedError = "Данный номер телефона уже используется";
         Assertions.assertEquals(expectedError, actualError);
     }
+    @DisplayName("Проверка регистрации пользователя при вводе неправильного кода из смс ")
     @Test
     public void fillingFalsePassword() throws InterruptedException {  //кейс 1.4
         RegistrationPage registrationPage = new RegistrationPage(driver);
