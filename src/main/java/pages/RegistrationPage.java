@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class RegistrationPage {
@@ -26,7 +27,7 @@ public class RegistrationPage {
         this.driver = driver;
     }
     public void waitButtonRegistration(){
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver,  Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(buttonRegistration));
     }
     public void fillingEmailClient(){
@@ -34,6 +35,12 @@ public class RegistrationPage {
     }
     public void fillingEmailSpecialist(){
         driver.findElement(mailField).sendKeys(DataForFilling.emailSpecialist);
+    }
+    public void fillingEmailAdmin(){
+        driver.findElement(mailField).sendKeys(DataForFilling.emailAdmin);
+    }
+    public void fillingPasswordAdmin(){
+        driver.findElement(fieldPassword).sendKeys(DataForFilling.passwordAdmin);
     }
 
     public String getError(){
@@ -122,14 +129,22 @@ public class RegistrationPage {
         return
                 driver.findElement(errorMobilePassword).getText();
     }
-    public void stepsOnAutorizationClient(){
+
+    public void stepsOnAutorizationClient() throws InterruptedException{
         fillingEmailClient();
         fillingPasswordClient();
         pushNextButton();
+        Thread.sleep(3000);
     }
-    public void stepsOnAutorizationSpecialist(){
+    public void stepsOnAutorizationSpecialist() throws InterruptedException{
         fillingEmailSpecialist();
         fillingPasswordSpecialist();
+        pushNextButton();
+        Thread.sleep(4000);
+    }
+    public void stepsOnAutorizationAdmin(){
+        fillingEmailAdmin();
+        fillingPasswordAdmin();
         pushNextButton();
     }
 }
