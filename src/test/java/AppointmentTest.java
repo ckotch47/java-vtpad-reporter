@@ -15,7 +15,6 @@ public class AppointmentTest {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.get(DataForFilling.deployUrl);
     }
     @Test
