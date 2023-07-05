@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AppointmentTest {
     private WebDriver driver;
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();

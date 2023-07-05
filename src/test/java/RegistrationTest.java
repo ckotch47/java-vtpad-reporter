@@ -12,11 +12,10 @@ import java.util.concurrent.TimeUnit;
 public class RegistrationTest {
     private WebDriver driver;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver  = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.get(DataForFilling.deployUrl);
     }
 
@@ -168,7 +167,7 @@ public class RegistrationTest {
         Thread.sleep(1000);
         mainPage.checkConfirmModalForCreateUserByAdmin();
     }
-    @AfterAll
+    @AfterEach
     public void quit(){
         driver.close();
     }
