@@ -97,7 +97,7 @@ public class AppointmentTest {
         String expectedResultAfterClearFilter = "0 специалистов";
         Assertions.assertNotEquals(actualResultAfterClearFilter, expectedResultAfterClearFilter);
     }
-    @AfterAll
+    @AfterEach
     public void quit(){
         driver.close();
     }
