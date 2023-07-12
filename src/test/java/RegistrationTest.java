@@ -3,19 +3,27 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.DataForFilling;
 import pages.MainPage;
 import pages.RegistrationPage;
 
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.extension.ExtendWith;
+import  reporter.TestResultLoggerExtension;
 
+@ExtendWith(TestResultLoggerExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("Регистрация")
 public class RegistrationTest {
     private WebDriver driver;
 
     @BeforeEach
     public void setUp() {
         WebDriverManager.chromedriver().setup();
-        driver  = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver  = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
     }
 

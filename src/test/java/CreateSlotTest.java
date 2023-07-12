@@ -6,11 +6,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import pages.DataForFilling;
 import pages.MainPage;
 import pages.RegistrationPage;
-
+import  reporter.TestResultLoggerExtension;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
+import org.junit.jupiter.api.extension.ExtendWith;
+@ExtendWith(TestResultLoggerExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("Тесты консультации")
 public class CreateSlotTest {
     private static WebDriver driver;
 
@@ -20,6 +23,7 @@ public class CreateSlotTest {
         int tempDays = 0;
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
         options.addArguments("--use-fake-ui-for-media-stream");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
@@ -62,6 +66,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         driver1 = new ChromeDriver(options);
@@ -95,8 +100,10 @@ public class CreateSlotTest {
         options.addArguments("--allow-file-access");
         options.addArguments("--allow-file-access-from-files");
         options.addArguments("--autoplay-policy=no-user-gesture-required");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
+        options.addArguments("--headless");
         driver1 = new ChromeDriver(options);
         driver1.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver1.get(DataForFilling.deployUrl);
@@ -125,8 +132,10 @@ public class CreateSlotTest {
         prefs.put("profile.default_content_setting_values.media_stream_mic", 2);
         prefs.put("profile.default_content_setting_values.media_stream_camera", 2);
         options.setExperimentalOption("prefs", prefs);
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
+        options.addArguments("--headless");
         driver1 = new ChromeDriver(options);
         driver1.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -151,8 +160,10 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
+        options.addArguments("--headless");
         driver1 = new ChromeDriver(options);
         driver1.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -181,8 +192,10 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
+        options.addArguments("--headless");
         driver1 = new ChromeDriver(options);
         driver1.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -207,6 +220,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         driver1 = new ChromeDriver(options);
@@ -232,6 +246,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -256,6 +271,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -278,6 +294,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -305,6 +322,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -331,6 +349,7 @@ public class CreateSlotTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--use-fake-ui-for-media-stream");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
