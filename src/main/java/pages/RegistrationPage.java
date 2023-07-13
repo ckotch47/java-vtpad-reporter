@@ -15,7 +15,7 @@ public class RegistrationPage {
     private By nextButton = By.xpath(".//button[contains(text(),'Войти')]");
     private By phonePassword = By.xpath(".//input[@placeholder='Код полученный в смс']");
     private By buttonRegistration = By.cssSelector("div[class='auth-form__link']");
-    private By fieldPassword = By.cssSelector("input[placeholder='Пароль']");
+    private By fieldPassword = By.xpath("//*[@id=\"__layout\"]/div/div/div[2]/div[1]/div/div[2]/form/label[2]/input");
     private By errorMail = By.xpath("/html/body/div[1]/div/div/div/div[2]/div[1]/div/div[2]/form/label[1]/span");
     private By errorMobile = By.xpath("//span[contains(text(),'Данный номер телефона уже используется')]");
     private By nextInRegistration = By.xpath(".//button[contains(text(),'Далее')]");

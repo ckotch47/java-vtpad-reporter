@@ -8,9 +8,11 @@ import pages.DataForFilling;
 import pages.MainPage;
 import pages.RegistrationPage;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.extension.ExtendWith;
 import  reporter.TestResultLoggerExtension;
+
 @ExtendWith(TestResultLoggerExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Тесты оплаты")
@@ -25,7 +27,8 @@ public class AppointmentTest {
         driver.get(DataForFilling.deployUrl);
     }
     @Test
-    public void searchSpecialist() throws InterruptedException{             //тест кейс номер 5
+    public void searchSpecialist() throws InterruptedException{
+        Thread.sleep(3000);//тест кейс номер 5
         RegistrationPage registrationPage = new RegistrationPage(driver);
         MainPage mainPage = new MainPage(driver);
         registrationPage.stepsOnAutorizationClient();

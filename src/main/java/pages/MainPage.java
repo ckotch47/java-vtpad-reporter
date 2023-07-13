@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainPage {
     private WebDriver driver;
-    private By welcome = By.xpath(".//div[contains(text(),'Домашняя страница')]");
+    private By welcome = By.xpath("/html/body/div[1]/div/div/aside/div/div/nav/ul/li[1]/a/div");
     private By searchRole = By.xpath("/html/body/div[1]/div/div/main/div/div[1]/div/section/form/div[2]/div/div/div[1]/input");
     private By searchButton = By.xpath("/html/body/div[1]/div/div/main/div/div[1]/div/section/form/div[6]/a");
     private By nameSpecialist = By.xpath(".//span[contains(text(),'Специалист')]");
