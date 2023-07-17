@@ -1,20 +1,20 @@
-import com.sun.tools.javac.Main;
+import api.UserApi;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.restassured.response.Response;
+import jdk.jfr.Description;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.DataForFilling;
-import pages.MainPage;
 import pages.RegistrationPage;
-
-import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.extension.ExtendWith;
-import  reporter.TestResultLoggerExtension;
+import reporter.TestResultLoggerExtension;
+import static org.apache.hc.core5.http.HttpStatus.*;
+
 
 @ExtendWith(TestResultLoggerExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisplayName("Регистрация")
 public class RegistrationTest {
     private WebDriver driver;
 
@@ -24,159 +24,118 @@ public class RegistrationTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver  = new ChromeDriver(options);
-        driver.get(DataForFilling.deployUrl);
+        driver.get(DataForFilling.registrationUrl);
     }
-
-    @DisplayName("Проверка авторизации пользователя")
     @Test
-    public void checkAutorization() throws InterruptedException { //case 2
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        MainPage mainPage = new MainPage(driver);
-        registrationPage.stepsOnAutorizationClient();
-        mainPage.waitElement();
-        String actualText = mainPage.getWelcomeText();
-        String expectedText = "Домашняя страница";
-        Assertions.assertEquals(expectedText, actualText);
-    }
-
-    @DisplayName("Проверка авторизации пользователя с невалидным мэйлом")
-    @Test
-    public void authorizationWithNonValideMail() { //case 2.1
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillingWrongMail();
-        registrationPage.fillingPasswordClient();
-        registrationPage.pushNextButton();
-        String actualError = registrationPage.getErrorMail();
-        String expectedText = "Введите валидный E-mail";
-        Assertions.assertEquals(expectedText, actualError);
-    }
-
-    @DisplayName("Проверка авторизации пользователя с мэйлом в котором содержится кириллица")
-    @Test
-    public void authorizationWithRussianMail() { //case 2.2
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillingMailRussianWords();
-        registrationPage.fillingPasswordClient();
-        registrationPage.pushNextButton();
-        String actualError = registrationPage.getErrorMail();
-        String expectedText = "Введите валидный E-mail";
-        Assertions.assertEquals(expectedText, actualError);
-    }
-    @DisplayName("Проверка авторизации пользователя с мэйлом которого нет в базе")
-    @Test
-    public void authorizationWithMailWhosNoInDatabase(){ //case 2.3
+    @DisplayName("Создание пользователя сс правильным кодом из смс")
+    public void registration()throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.fillingMailNoInDatabase();
-        registrationPage.fillingPasswordClient();
-        registrationPage.pushNextButton();
-        registrationPage.waitError();
-        String actualError = registrationPage.getErrorForDatabase();
-        String expectedText = "Неверный email или пароль";
-        Assertions.assertEquals(expectedText, actualError);
-    }
-    @DisplayName("Проверка авторизации пользователя с неправильным паролем")
-    @Test
-    public void authorizationWithFalsePassword(){ //case 2.4
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillingEmailClient();
-        registrationPage.fillingFalsePassword();
-        registrationPage.pushNextButton();
-        registrationPage.waitError();
-        String actualError = registrationPage.getErrorForDatabase();
-        String expectedText = "Неверный email или пароль";
-        Assertions.assertEquals(expectedText, actualError);
-    }
-    @DisplayName("Проверка авторизации пользователя без заполнения полей")
-    @Test
-    public void authorizationWithoutFillingFields(){ //case 2.5
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.pushNextButton();
-        registrationPage.waitError();
-        String actualError = registrationPage.getErrorForDatabase();
-        String expectedText = "Поле необходимо заполнить";
-        Assertions.assertEquals(expectedText, actualError);
-    }
-    @DisplayName("Проверка регистрации пользователя с мэйлом который уже имеется наа платформе")
-    @Test
-    public void registrationWithUsedEmail() throws InterruptedException { //кейс 1.1
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.waitButtonRegistration();
-        Thread.sleep(1000);
-        registrationPage.pushRegistrationForm();
-        Thread.sleep(1000);
-        registrationPage.findEmail();
-        Thread.sleep(1000);
-        registrationPage.fillingEmailClient();
-        Thread.sleep(1000);
-        registrationPage.fillingPhone();
-        Thread.sleep(1000);
+        registrationPage.fillingPhoneForRegistration();
         registrationPage.pushNextButtonInRegistration();
-        registrationPage.waitError();
-        String actualError = registrationPage.getError();
-        String expectedError = "Данный E-mail уже используется";
-        Assertions.assertEquals(expectedError, actualError);
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingPasswordMobileForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingNewPassword(DataForFilling.passwordForRegistration);
+        registrationPage.fillingConfirmPassword(DataForFilling.passwordForRegistration);
+        registrationPage.pushButtonConfirm();
+        boolean actualDisplayLogin = registrationPage.checkLoginDisplay();
+        Assertions.assertTrue(actualDisplayLogin, "После регистрации возврат на страницу входа не произошел, или регистрация не прошлаа");
     }
 
-    @DisplayName("Проверка регистрации пользователя с телефоном который имеется в базе")
     @Test
-    public void registrationWithUsedPhone() throws InterruptedException{  //кейс 1.2
+    @DisplayName("Получение ошибки паролей , в создании пользователя, при условии ввода в пароле только цифр")
+    public void registrationWithNotSafePassword()throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.waitButtonRegistration();
-        Thread.sleep(1000);
-        registrationPage.pushRegistrationForm();
-        Thread.sleep(1000);
-        registrationPage.findEmail();
-        Thread.sleep(1000);
         registrationPage.fillingMailNoInDatabase();
-        Thread.sleep(1000);
-        registrationPage.fillingPhoneInBase();
-        Thread.sleep(1000);
+        registrationPage.fillingPhoneForRegistration();
         registrationPage.pushNextButtonInRegistration();
-        registrationPage.waitErrorMobile();
-        String actualError = registrationPage.getErrorMobile();
-        String expectedError = "Данный номер телефона уже используется";
-        Assertions.assertEquals(expectedError, actualError);
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingPasswordMobileForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingNewPassword(DataForFilling.notSavePassword);
+        registrationPage.fillingConfirmPassword(DataForFilling.notSavePassword);
+        String actualMessageAfterFillingPassword = registrationPage.getTextMessageAfterFillingPassword();
+        String expectMessageAfterFillingPassword = "Минимум 1 прописной символ";
+        Assertions.assertEquals(expectMessageAfterFillingPassword, actualMessageAfterFillingPassword , "Текст ошибки не совпадает");
     }
-    @DisplayName("Проверка регистрации пользователя при вводе неправильного кода из смс ")
+
     @Test
-    public void fillingFalsePassword() throws InterruptedException {  //кейс 1.4
+    @DisplayName("Получение ошибки паролей , в создании пользователя, при условии ввода в пароле только цифр")
+    public void registrationWithNotConcidiencePasswords()throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.waitButtonRegistration();
-        Thread.sleep(1000);
-        registrationPage.pushRegistrationForm();
-        Thread.sleep(1000);
-        registrationPage.findEmail();
-        Thread.sleep(1000);
         registrationPage.fillingMailNoInDatabase();
-        Thread.sleep(1000);
-        registrationPage.fillingPhone();
-        Thread.sleep(1000);
+        registrationPage.fillingPhoneForRegistration();
         registrationPage.pushNextButtonInRegistration();
-        registrationPage.waitFieldPassword();
-        registrationPage.fillingWrongMobilePassword();
-        registrationPage.pushNextInCodeAcceptMobile();
-        registrationPage.waitErrorPasswordMobile();
-        String actualError = registrationPage.getErrorPasswordMobile();
-        String expectedError = "Неверный код";
-        Assertions.assertEquals(expectedError, actualError);
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingPasswordMobileForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingNewPassword(DataForFilling.notSavePassword);
+        registrationPage.fillingConfirmPassword("12345667");
+        registrationPage.pushButtonConfirm();
+        boolean actualDisplayErrorCoincidence = registrationPage.checkDisplayErrorCoincidence();
+        String actualErrorCoincidence = registrationPage.getTextErrorCoincidence();
+        String expectedErrorCoincidence = "Пароли должны совпадать";
+        Assertions.assertTrue(actualDisplayErrorCoincidence , "Ошибка не появилась");
+        Assertions.assertEquals(expectedErrorCoincidence, actualErrorCoincidence , "Текст ошибки не совпадает");
     }
+
     @Test
-    public void registrationUserByAdministrator() throws InterruptedException{//case 3 , заполняется только ФИО mail и номер телефона
+    @DisplayName("ввод пароля меньше 8 символов при регистрации")
+    public void registrationWithSevenSymbols() throws InterruptedException{
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        MainPage mainPage = new MainPage(driver);
-        Thread.sleep(1000);
-        registrationPage.stepsOnAutorizationAdmin();
-        Thread.sleep(1000);
-        mainPage.pushButtonUsersAdmin();
-        Thread.sleep(3000);
-        mainPage.pushCreateUserAdmin();
-        Thread.sleep(3000);
-        mainPage.stepsForCreateUserByAdmin();
-        Thread.sleep(1000);
-        mainPage.checkConfirmModalForCreateUserByAdmin();
+        registrationPage.fillingMailNoInDatabase();
+        registrationPage.fillingPhoneForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingPasswordMobileForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingNewPassword("12345");
+        registrationPage.fillingConfirmPassword("12345");
+        String actualMessageAfterFilling = registrationPage.getTextMessageAfterFillingPassword();
+        String expectedMessageAfterFilling = "Минимум 8 символов";
+        Assertions.assertEquals(expectedMessageAfterFilling, actualMessageAfterFilling , "Текст ошибки не совпадает");
     }
+
+    @Test
+    @DisplayName("Ввод надежного пароля")
+    public void registrationWithSafePassword() throws InterruptedException{
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        registrationPage.fillingMailNoInDatabase();
+        registrationPage.fillingPhoneForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingPasswordMobileForRegistration();
+        registrationPage.pushNextButtonInRegistration();
+        registrationPage.fillingNewPassword(DataForFilling.passwordForRegistration);
+        registrationPage.fillingConfirmPassword(DataForFilling.passwordForRegistration);
+        String actualMessageAfterFilling = registrationPage.getTextMessageAfterFillingPassword();
+        String expectedMessageAfterFilling = "Надежный пароль";
+        Assertions.assertEquals(expectedMessageAfterFilling, actualMessageAfterFilling , "Текст ошибки не совпадает");
+    }
+
     @AfterEach
     public void quit(){
-        driver.close();
+        driver.quit();
+    }
+
+    @AfterEach
+    @DisplayName("Удаление пользователя")
+    public void deleteUser() throws InterruptedException{
+        UserApi userApi = new UserApi();
+        Response response = UserApi.loginUser(DataForFilling.emailNotUsedInData, DataForFilling.passwordForRegistration);
+        if (response.statusCode() != SC_CREATED){
+            System.out.println("Уже удален, либо не создан");
+        }
+        else {
+            String accessToken = response.then().extract().path("accessToken").toString();
+            Response response1 = UserApi.getProfile("bearer " + accessToken);
+            response1.then().statusCode(SC_OK);
+            String idProfile = response1.then().extract().path("user.id").toString();
+            Response response2 = UserApi.deleteProfile(idProfile, "bearer "+ accessToken);
+            response2.then().statusCode(SC_OK);
+            System.out.println("пользователь удалился");
+        }
+
     }
 }

@@ -2,9 +2,14 @@ package pages;
 
 public class DataForFilling {
     static public String deployUrl = "https://dev.app.ponimayu.qtim.ru/";
+    static public String registrationUrl = "https://dev.k8s.ponimayu.qtim.ru/auth/registration";
     static public String emailClient = "monokai-kirov-jest-10@yandex.ru";
     static public String emailSpecialist = "monokai-kirov-jest-20@yandex.ru";
     static public String emailNotUsedInData = "makavelka71@gmail.com";
+    static public String passwordMobileForRegistration = "456812";
+    static public String phoneForRegistration = "9969999999";
+    static public String passwordForRegistration = "stikkazak1998";
+    static public String notSavePassword = "123456789";
     static public String phone = "9028447532";
     static public String phoneInBase = "9109415477";
     static public String wrongPassword = "0000";

@@ -7,6 +7,8 @@ import pages.DataForFilling;
 import pages.MainPage;
 import pages.RegistrationPage;
 import  reporter.TestResultLoggerExtension;
+
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +28,8 @@ public class CreateSlotTest {
         options.addArguments("--headless");
         options.addArguments("--use-fake-ui-for-media-stream");
         driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
         driver.get(DataForFilling.deployUrl);
         RegistrationPage registrationPage = new RegistrationPage(driver);
         MainPage mainPage = new MainPage(driver);
@@ -68,6 +72,8 @@ public class CreateSlotTest {
         options.addArguments("--use-fake-ui-for-media-stream");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
         driver.get(DataForFilling.deployUrl);
         driver1 = new ChromeDriver(options);
         driver1.get(DataForFilling.deployUrl);
@@ -104,6 +110,8 @@ public class CreateSlotTest {
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
         options.addArguments("--headless");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12));
         driver1 = new ChromeDriver(options);
         driver1.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver1.get(DataForFilling.deployUrl);

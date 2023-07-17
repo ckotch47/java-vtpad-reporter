@@ -8,9 +8,11 @@ import pages.DataForFilling;
 import pages.MainPage;
 import pages.RegistrationPage;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.extension.ExtendWith;
 import  reporter.TestResultLoggerExtension;
+
 @ExtendWith(TestResultLoggerExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Тесты оплаты")
@@ -24,8 +26,10 @@ public class AppointmentTest {
         driver = new ChromeDriver(options);
         driver.get(DataForFilling.deployUrl);
     }
+    @DisplayName("Поиск специалиста по имени")
     @Test
-    public void searchSpecialist() throws InterruptedException{             //тест кейс номер 5
+    public void searchSpecialist() throws InterruptedException{
+        Thread.sleep(3000);//тест кейс номер 5
         RegistrationPage registrationPage = new RegistrationPage(driver);
         MainPage mainPage = new MainPage(driver);
         registrationPage.stepsOnAutorizationClient();
@@ -36,6 +40,7 @@ public class AppointmentTest {
         String expectedText = "Специалист";
         Assertions.assertEquals(expectedText, actualText);
     }
+    @DisplayName("Проверка, что показывается 0 специалистов , когда в фильтрах выбираются чебкокс где нет специалистов")
     @Test
     public void getEmptyList() throws InterruptedException {        //кейс 5.1
         RegistrationPage registrationPage = new RegistrationPage(driver);
